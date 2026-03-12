@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="page">
+  <div class="topbar">
+    <h1>AsheoCloud Dashboard</h1>
+    <button class="danger" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Create User</h2>
+      <input id="u_email" placeholder="Email" />
+      <input id="u_username" placeholder="Username" />
+      <input id="u_first" placeholder="First name" />
+      <input id="u_last" placeholder="Last name" />
+      <input id="u_password" placeholder="Password" />
+      <button onclick="createUser()">Create User</button>
+    </div>
+
+    <div class="card">
+      <h2>Create Server</h2>
+      <input id="s_name" placeholder="Server name" />
+      <input id="s_user" placeholder="User ID" />
+      <input id="s_egg" placeholder="Egg ID" />
+      <input id="s_node" placeholder="Node ID" />
+      <input id="s_allocation" placeholder="Default allocation ID" />
+      <input id="s_memory" placeholder="Memory MB" />
+      <input id="s_cpu" placeholder="CPU %" />
+      <input id="s_disk" placeholder="Disk MB" />
+      <button onclick="createServer()">Create Server</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Servers</h2>
+    <button onclick="loadServers()">Refresh</button>
+    <div id="servers" class="server-list"></div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

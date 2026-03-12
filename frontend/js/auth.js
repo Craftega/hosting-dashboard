@@ -1,18 +1,29 @@
-async function login(){
+async function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const errorBox = document.getElementById("loginError");
 
- const r = await fetch("http://localhost:3000/auth/login",{
-  method:"POST",
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({
-   username:document.getElementById("user").value,
-   password:document.getElementById("pass").value
-  })
- })
+  errorBox.textContent = "";
 
- const data = await r.json()
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
 
- localStorage.token=data.token
+    const data = await response.json();
 
- window.location="dashboard.html"
+    if (!response.ok) {
+      errorBox.textContent = data.error || "Login failed";
+      return;
+    }
 
+    localStorage.setItem("token", data.token);
+    window.location.href = "/dashboard";
+  } catch (error) {
+    errorBox.textContent = "Network error";
+  }
 }

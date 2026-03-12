@@ -1,27 +1,25 @@
-const router = require("express").Router()
-const jwt = require("jsonwebtoken")
+const express = require("express");
+const jwt = require("jsonwebtoken");
 
-const admin={
- username:"admin",
- password:"admin123"
-}
+const router = express.Router();
 
-router.post("/login",(req,res)=>{
+router.post("/login", (req, res) => {
+  const { username, password } = req.body;
 
- const {username,password}=req.body
+  if (
+    username !== process.env.ADMIN_USERNAME ||
+    password !== process.env.ADMIN_PASSWORD
+  ) {
+    return res.status(401).json({ error: "Invalid username or password" });
+  }
 
- if(username!==admin.username || password!==admin.password){
-  return res.status(401).send("Invalid login")
- }
+  const token = jwt.sign(
+    { username, role: "admin" },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
 
- const token = jwt.sign(
-  {username},
-  process.env.JWT_SECRET,
-  {expiresIn:"1d"}
- )
+  res.json({ token });
+});
 
- res.json({token})
-
-})
-
-module.exports=router
+module.exports = router;

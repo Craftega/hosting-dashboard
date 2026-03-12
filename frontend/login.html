@@ -1,8 +1,23 @@
-<h2>Admin Login</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="page">
+  <div class="login-card">
+    <h1>AsheoCloud Admin</h1>
+    <p class="muted">Login to manage your Pterodactyl panel</p>
 
-<input id="user" placeholder="username">
-<input id="pass" type="password">
+    <input id="username" type="text" placeholder="Username" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
 
-<button onclick="login()">Login</button>
+    <p id="loginError" class="error"></p>
+  </div>
 
-<script src="js/auth.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

@@ -1,25 +1,51 @@
-const router=require("express").Router()
-const api=require("../config/pterodactyl")
+const express = require("express");
+const { appApi } = require("../config/pterodactyl");
 
-router.get("/",async(req,res)=>{
+const router = express.Router();
 
- const r=await api.get("/users")
- res.json(r.data)
+router.get("/", async (req, res) => {
+  try {
+    const response = await appApi.get("/users");
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch users",
+      details: error.response?.data || error.message
+    });
+  }
+});
 
-})
+router.post("/", async (req, res) => {
+  try {
+    const { email, username, first_name, last_name, password } = req.body;
 
-router.post("/",async(req,res)=>{
+    const response = await appApi.post("/users", {
+      email,
+      username,
+      first_name,
+      last_name,
+      password
+    });
 
- const r=await api.post("/users",req.body)
- res.json(r.data)
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to create user",
+      details: error.response?.data || error.message
+    });
+  }
+});
 
-})
+router.delete("/:id", async (req, res) => {
+  try {
+    await appApi.delete(`/users/${req.params.id}`);
+    res.json({ success: true, message: "User deleted" });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to delete user",
+      details: error.response?.data || error.message
+    });
+  }
+});
 
-router.delete("/:id",async(req,res)=>{
-
- await api.delete("/users/"+req.params.id)
- res.send("deleted")
-
-})
-
-module.exports=router
+module.exports = router;
